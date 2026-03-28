@@ -1,6 +1,5 @@
-# Fix apache and automate it using Puppet
-exec { 'fixing typo...':
-  onlyif  => 'test -e /var/www/html/wp-settings.php',
-  command => "sed -i 's/phpp/php/' /var/www/html/wp-settings.php",
-  path    => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
+# Fix Apache 500 error by fixing WordPress PHP file extension
+exec { 'fix-wordpress':
+  command => 'sed -i s/phpp/php/g /var/www/html/wp-settings.php',
+  path    => '/usr/local/bin/:/bin/:/usr/bin/',
 }
