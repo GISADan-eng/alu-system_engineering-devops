@@ -5,16 +5,14 @@
 id -u nginx &>/dev/null || useradd --no-create-home --shell /bin/false nginx
 
 # Update nginx.conf to run as nginx user
-sed -i 's/^user www-data;/user nginx;/' /etc/nginx/nginx.conf
-sed -i 's/^user root;/user nginx;/' /etc/nginx/nginx.conf
+sed -i 's/user www-data;/user nginx;/g' /etc/nginx/nginx.conf
+sed -i 's/user root;/user nginx;/g' /etc/nginx/nginx.conf
 
-# Update all nginx configs to listen on port 8080
-find /etc/nginx -name "*.conf" -exec sed -i 's/listen 80;/listen 8080;/g' {} \;
-find /etc/nginx -name "*.conf" -exec sed -i 's/listen \[::\]:80;/listen [::]:8080;/g' {} \;
-sed -i 's/listen 80;/listen 8080;/g' /etc/nginx/sites-available/default
-sed -i 's/listen \[::\]:80;/listen [::]:8080;/g' /etc/nginx/sites-available/default
-sed -i 's/listen 80 /listen 8080 /g' /etc/nginx/sites-available/default
-sed -i 's/listen \[::\]:80 /listen [::]:8080 /g' /etc/nginx/sites-available/default
+# Update default site to listen on port 8080
+sed -i 's/listen 80 default_server;/listen 8080 default_server;/g' /etc/nginx/sites-available/default
+sed -i 's/listen \[::\]:80 default_server;/listen [::]:8080 default_server;/g' /etc/nginx/sites-available/default
 
-# Restart nginx
-nginx -t && service nginx restart
+# Kill existing nginx and restart
+pkill nginx
+sleep 1
+nginx
