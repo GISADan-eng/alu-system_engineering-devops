@@ -8,8 +8,8 @@ id -u nginx &>/dev/null || useradd --no-create-home --shell /bin/false nginx
 sed -i 's/^user .*/user nginx;/' /etc/nginx/nginx.conf
 
 # Update default site to listen on port 8080
-sed -i 's/listen 80/listen 8080/g' /etc/nginx/sites-available/default
-sed -i 's/listen \[::\]:80/listen [::]:8080/g' /etc/nginx/sites-available/default
+sed -i 's/listen 80 /listen 8080 /g' /etc/nginx/sites-available/default
+sed -i 's/listen \[::\]:80 /listen [::]:8080 /g' /etc/nginx/sites-available/default
 
 # Restart nginx
 nginx -t && service nginx restart
