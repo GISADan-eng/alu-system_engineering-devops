@@ -30,8 +30,8 @@ frontend http_front
 
 backend http_back
     balance roundrobin
-    server 6991-web-01 54.172.146.253:3000 check
-    server 6991-web-02 100.54.239.117:3000 check
+    server 6991-web-01 54.172.146.253:80 check
+    server 6991-web-02 100.54.239.117:80 check
 HAPROXY
 
 service haproxy restart
